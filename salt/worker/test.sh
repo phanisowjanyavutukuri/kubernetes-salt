@@ -69,7 +69,6 @@ cat <<EOF | sudo tee /etc/systemd/system/containerd.service
 Description=containerd container runtime
 Documentation=https://containerd.io
 After=network.target
-
 [Service]
 ExecStartPre=/sbin/modprobe overlay
 ExecStart=/bin/containerd
@@ -81,7 +80,6 @@ OOMScoreAdjust=-999
 LimitNOFILE=1048576
 LimitNPROC=infinity
 LimitCORE=infinity
-
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -115,7 +113,6 @@ Description=Kubernetes Kubelet
 Documentation=https://github.com/kubernetes/kubernetes
 After=containerd.service
 Requires=containerd.service
-
 [Service]
 ExecStart=/usr/local/bin/kubelet \\
   --config=/var/lib/kubelet/kubelet-config.yaml \\
@@ -128,7 +125,6 @@ ExecStart=/usr/local/bin/kubelet \\
   --v=2
 Restart=on-failure
 RestartSec=5
-
 [Install]
 WantedBy=multi-user.target
 EOF
@@ -145,17 +141,14 @@ cat <<EOF | sudo tee /etc/systemd/system/kube-proxy.service
 [Unit]
 Description=Kubernetes Kube Proxy
 Documentation=https://github.com/kubernetes/kubernetes
-
 [Service]
 ExecStart=/usr/local/bin/kube-proxy \\
   --config=/var/lib/kube-proxy/kube-proxy-config.yaml
 Restart=on-failure
 RestartSec=5
-
 [Install]
 WantedBy=multi-user.target
 EOF
 sudo systemctl daemon-reload
 sudo systemctl enable containerd kubelet kube-proxy
 sudo systemctl start containerd kubelet kube-proxy
-

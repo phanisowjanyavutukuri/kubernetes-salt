@@ -1,8 +1,9 @@
+etcd_ip=$1
+
 cat <<EOF | sudo tee /etc/systemd/system/etcd.service
 [Unit]
 Description=etcd
 Documentation=https://github.com/coreos
-
 [Service]
 ExecStart=/usr/local/bin/etcd \\
   --name myetcd \\
@@ -14,16 +15,15 @@ ExecStart=/usr/local/bin/etcd \\
   --peer-trusted-ca-file=/etc/etcd/ca.pem \\
   --peer-client-cert-auth \\
   --client-cert-auth \\
-  --initial-advertise-peer-urls https://10.128.0.4:2380 \\
-  --listen-peer-urls https://10.128.0.4:2380 \\
-  --listen-client-urls https://10.128.0.4:2379,https://127.0.0.1:2379 \\
-  --advertise-client-urls https://10.128.0.4:2379 \\
+  --initial-advertise-peer-urls https://$etcd_ip:2380 \\
+  --listen-peer-urls https://$etcd_ip:2380 \\
+  --listen-client-urls https://$etcd_ip:2379,https://127.0.0.1:2379 \\
+  --advertise-client-urls https://$etcd_ip:2379 \\
   --initial-cluster-token etcd-cluster-0 \\
   --initial-cluster-state new \\
   --data-dir=/var/lib/etcd
 Restart=on-failure
 RestartSec=5
-
 [Install]
 WantedBy=multi-user.target
 EOF

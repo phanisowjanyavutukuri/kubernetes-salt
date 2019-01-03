@@ -8,7 +8,7 @@ run_etcd_ervice.sh:
   cmd.script:
     - name: etcd_service.sh
     - source: salt://etcd/etcd_service.sh
+    - args:  "{{ pillar['etcd_ip'] }}" 
     - cwd: /
     - user: root
     - stateful: True
-

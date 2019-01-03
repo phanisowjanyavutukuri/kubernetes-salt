@@ -1,7 +1,9 @@
+worker_ip=$1
+
 kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.pem \
     --embed-certs=true \
-    --server=https://10.128.0.4:6443 \
+    --server=https://$worker_ip:6443 \
     --kubeconfig=worker1.kubeconfig
 
   kubectl config set-credentials system:node:worker1 \

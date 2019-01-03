@@ -1,3 +1,8 @@
 base:  
   'minion1':  
-     - mytest
+     - cfssl
+     - generate_certs
+     - etcd
+     - kube_control
+     - worker
+

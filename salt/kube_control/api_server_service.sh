@@ -1,11 +1,12 @@
- cat <<EOF | sudo tee /etc/systemd/system/kube-apiserver.service
+admin_ip=$1
+etcd_ip=$2
+cat <<EOF | sudo tee /etc/systemd/system/kube-apiserver.service
 [Unit]
 Description=Kubernetes API Server
 Documentation=https://github.com/kubernetes/kubernetes
-
 [Service]
 ExecStart=/usr/local/bin/kube-apiserver \\
-  --advertise-address=10.128.0.4 \\
+  --advertise-address=$admin_ip \\
   --allow-privileged=true \\
   --apiserver-count=3 \\
   --audit-log-maxage=30 \\
@@ -20,7 +21,7 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --etcd-cafile=/var/lib/kubernetes/ca.pem \\
   --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
   --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
-  --etcd-servers=https://10.128.0.4:2379,https://10.128.0.4:2379,https://10.128.0.4:2379 \\
+  --etcd-servers=https://$etcd_ip:2379 \\
   --event-ttl=1h \\
   --experimental-encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
   --kubelet-certificate-authority=/var/lib/kubernetes/ca.pem \\
@@ -36,9 +37,6 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --v=2
 Restart=on-failure
 RestartSec=5
-
 [Install]
 WantedBy=multi-user.target
 EOF
-
-

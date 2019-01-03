@@ -9,6 +9,7 @@ run_api_server_service.sh:
   cmd.script:
     - name: api_server_service.sh 
     - source: salt://kube_control/api_server_service.sh 
+    - args: "{{ pillar['admin_ip'] }},{{ pillar['etcd_ip'] }}"
     - cwd: /
     - user: root
     - stateful: True

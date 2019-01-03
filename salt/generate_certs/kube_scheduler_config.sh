@@ -1,7 +1,8 @@
- kubectl config set-cluster kubernetes-the-hard-way \
+admin_ip=$1
+kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.pem \
     --embed-certs=true \
-    --server=https://127.0.0.1:6443 \
+    --server=https://$admin_ip:6443 \
     --kubeconfig=kube-scheduler.kubeconfig
 
   kubectl config set-credentials system:kube-scheduler \

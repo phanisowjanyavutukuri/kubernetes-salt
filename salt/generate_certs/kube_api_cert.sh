@@ -1,3 +1,4 @@
+admin_ip=$1
 cat > kubernetes-csr.json <<EOF
 {
   "CN": "kubernetes",
@@ -20,6 +21,6 @@ cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
   -config=ca-config.json \
-  -hostname=worker1,35.194.11.89,10.128.0.4,127.0.0.1,kubernetes.default \
+  -hostname=worker1,$admin_ip,127.0.0.1,kubernetes.default \
   -profile=kubernetes \
   kubernetes-csr.json | cfssljson -bare kubernetes

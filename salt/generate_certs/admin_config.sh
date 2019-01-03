@@ -1,7 +1,8 @@
- kubectl config set-cluster kubernetes-the-hard-way \
+admin_ip=$1
+kubectl config set-cluster kubernetes-the-hard-way \
     --certificate-authority=ca.pem \
     --embed-certs=true \
-    --server=https://10.128.0.4:6443 \
+    --server=https://$admin_ip:6443 \
     --kubeconfig=admin.kubeconfig
 
   kubectl config set-credentials admin \
